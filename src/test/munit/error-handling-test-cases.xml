@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="new-test-suite-accounts-api-mainTest" doc:id="cc8c5616-c1bc-4da0-96af-09a4b5d2ee17" description="Test" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when APIKIT:BAD_REQUEST" doc:id="0e912051-4f97-409a-b206-6c44c8a53a2e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to accounts-api-main" doc:id="c2fdb233-dc4b-4e70-88b3-169ac7a930dc" name="accounts-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="02391ec8-6b83-4df5-b95f-c2330b856551" actual="#[payload]" expected="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="MockwhenAPIKIT:NOT_FOUND" doc:id="78a41f3e-b1c3-4ef3-9ddc-b6308d64bf64" expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when APIKIT:NOT_FOUND" doc:id="d63ea64e-60ee-458b-8531-cb0c85b1b50d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to accounts-api-main" doc:id="796f2fb9-1868-4a86-8556-e5594a68ef76" name="accounts-api-main" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="a96db25e-a4ad-402e-a6f7-a35eef72b020" actual="#[payload]" expected="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="MockwhenMethodNotAllowed" doc:id="7ce12e95-906b-442b-98f3-ada1e4f194b1" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when APIKIT:METHOD_NOT_ALLOWED" doc:id="4bcae43c-27b3-4de8-bd7a-18ceda77d687" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="f52046e0-0caa-41a8-9663-e471ebda1546" name="accounts-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="1dff6b32-3750-424b-99f1-736922928555" actual="#[payload]" expected="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="mockwhenAPIKIT:NOT_ACCEPTABLE" doc:id="a5101cab-6e59-4ba0-8ad5-caa0ed581749" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when APIKIT:NOT_ACCEPTABLE" doc:id="e9ae1cc4-5eae-4065-b377-21085f7bd4d5" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="a17b1a39-6646-4c2e-a390-f34a317128b2" name="accounts-api-main" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="30de4034-669a-4e67-8113-c25f28962a06" actual="#[payload]" expected="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="mockwhenUnsupportedMEDIA_TYPE" doc:id="eaed2af0-cd53-48ac-a0d8-1312c88271ab" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a9633a8b-818f-4524-8b11-d9601958b8c4" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="8e4b00d1-99d6-4076-ab83-851cae7e91c1" name="accounts-api-main" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="4c6839c0-bf5b-489f-89d8-f46a984ea44d" actual="#[payload]" expected="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="MockWhenAPIKIT:NOT_IMPLEMENTED" doc:id="8d3646c9-3bac-44ee-9cd9-2e6281b76516" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5a278476-2d45-43f4-9af2-e982547ae132" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="accounts-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="437fb064-a31a-49c4-8add-796a84d92ae1" name="accounts-api-main" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="586fb676-ffbb-4c24-ad08-3775a910f5bd" actual="#[payload]" expected="#[payload]" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

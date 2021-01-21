@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	<flow name="get:\accounts:accounts-api-config">
+		<db:select doc:name="get-accounts" doc:id="b3ef0cb6-902f-4017-baff-79a8929a1fb3" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from accountdb]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="JAVA to JSON" doc:id="24cf3775-4a0d-4951-85a5-831127df61b7">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Get Accounts flow completed" doc:id="aa325630-3a20-4922-bf1a-4532cb24f675" message="Get Accounts flow completed"/>
+
+    </flow>
+    
+    <flow name="get:\accounts\(ID):accounts-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<db:select doc:name="get-accounts-id" doc:id="9e76ee0a-22d7-4c66-b8a7-127cb5ee6c71" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from accountdb where id = :id]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	id: attributes.uriParams.ID
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Java to Json" doc:id="7c7356d8-cc30-4a6e-88df-fd554f13ebf3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Get accounts by ID flow completed" doc:id="c35bc728-3630-4648-ae97-ddf0b9da19dd" message="Get accounts by ID flow completed." />
+    
+</flow>
+	
+	</mule>

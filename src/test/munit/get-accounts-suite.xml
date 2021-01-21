@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="get-accounts-suite.xml" />
+	<munit:test name="get:\accounts:accounts-api-config-test" doc:id="c41889cf-2a00-43fc-834b-2cfc5ff64d69" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock get-accounts" doc:id="4648679e-63ae-4d00-923b-170558cf10ff" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b3ef0cb6-902f-4017-baff-79a8929a1fb3" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://getaccountsaccountsapiconfigtest\mock_payload.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getaccountsaccountsapiconfigtest\mock_variable_.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="f2021b94-e642-40a9-98c5-d1e454ce12d9" >
+				<munit:payload value="#[readUrl('classpath://getaccountsaccountsapiconfigtest\set-event_payload3.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getaccountsaccountsapiconfigtest\set-event_attributes3.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getaccountsaccountsapiconfigtest\set-event_variable_3.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\accounts:accounts-api-config" doc:id="b8ea713a-c220-4af7-972b-18ff9614554b" name="get:\accounts:accounts-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="62dae99a-bc85-4a61-a326-0db9f461c872" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getaccountsaccountsapiconfigtest::assert_expression_payload3
+---
+assert_expression_payload3::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

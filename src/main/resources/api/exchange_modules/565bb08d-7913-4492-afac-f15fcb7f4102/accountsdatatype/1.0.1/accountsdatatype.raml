@@ -1,0 +1,28 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  id?: number
+  firstName: 
+    type: string
+    pattern: "[A-Z][a-z]+$"
+  lastName: 
+    type: string
+    pattern: "[A-Z][a-z]+$"
+  dateOfBirth: string
+  gender: 
+    type: string
+    enum:
+      - Male
+      - Female
+  streetAddress: string
+  address2: string
+  city: string
+  state: string
+  zipCode: string
+  phone:
+    type: string
+    pattern: "[0-9|-]+"
+  phone2? : string
+  emailAddress: string
+  status: string

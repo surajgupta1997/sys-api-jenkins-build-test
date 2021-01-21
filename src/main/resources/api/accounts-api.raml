@@ -1,0 +1,85 @@
+#%RAML 1.0
+title: Accounts API
+
+types:
+  AccountsDataType: !include /exchange_modules/565bb08d-7913-4492-afac-f15fcb7f4102/accountsdatatype/1.0.1/accountsdatatype.raml
+
+/accounts:
+  get:
+    description: Retreives all the accounts
+    responses:
+      200:
+        body:
+          application/json:
+            type: AccountsDataType[]
+            examples:
+              output: !include examples/AccountsExample.raml
+      400:
+        body:
+          application/json:
+            example:
+              message: Error Retrieving Data
+    
+  post:
+    description: Creates a new Account
+    body:
+      application/json:
+        type: AccountsDataType
+        examples:
+          input: !include examples/AccountExample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            examples:
+              message: Account Created
+    
+  /{ID}:
+    get:
+      description: Retrieves Sinlge Account based on account ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: AccountsDataType
+              examples:
+                output: !include examples/AccountExample.raml
+        400:
+          body:
+            application/json:
+              example:
+                message: Error Retreiveing Account
+      
+    put:
+      description: Updates the account with speicific ID
+      body:
+        application/json:
+          type: AccountsDataType
+          examples:
+            input: !include examples/AccountNoIDExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: Account Updated
+        400:
+          body:
+            application/json:
+              example:
+                message: Error Updating Account. Please verify account ID
+              
+    delete:
+      description: Delete Account with specific ID
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: Account Deleted
+        400:
+          body:
+            application/json:
+              example:
+                message: Error Deleting Account. Please Verify Account ID
+    
