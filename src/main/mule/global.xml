@@ -10,9 +10,6 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 <apikit:config name="accounts-api-config" api="accounts-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 <configuration-properties doc:name="Configuration properties" doc:id="b75c7ff0-f178-4d3a-a1e7-1f4eb45b8e80" file="properties/${env}.yaml" />
-	<import doc:name="Import" doc:id="24fec8a3-91b8-4ef5-8d11-f62ccfe2868e" file="apisero-generic-error-handler.xml" />
-	<configuration-properties doc:name="Configuration properties" doc:id="b57c5177-6e12-4420-92b2-5f9e102b05fe" file="properties\error-handler-local.yaml" />
-	<configuration doc:name="Configuration" doc:id="69a5d25b-9991-4eeb-97d1-46a241b708de" defaultErrorHandler-ref="global_error_handler" />
 	<flow name="accounts-api-main">
         <http:listener config-ref="HTTP_Listener_config" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
